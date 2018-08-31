@@ -1,0 +1,33 @@
+# Site address that will be used by the server. Necessary for the HTTPS
+# certificates.
+domain: example.com
+
+# SSL certificate to use with HTTPS. This parameter is optional and if it is not
+# provided, a new certificate will be issued using Let's encrypt.
+# ssl: "./example.com.cert"
+
+# Custom error pages to use in case a user tries to access an unknown file,
+# protected file or there is a server error.
+# pages:
+#   403: "./_403.html"  
+#   404: "./_404.html"
+#   500: "./_500.html"
+
+markdown: true
+development: false
+spa: true
+ui: true
+form: true
+
+authorization:
+  - path:
+    auth:
+      - user: user
+        pass: pass
+      - user: admin
+        pass: P@ssw0rd
+
+stats:
+  path: "/stats"
+  user: admin
+  pass: pass
