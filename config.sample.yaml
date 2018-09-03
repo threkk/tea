@@ -13,21 +13,34 @@ domain: example.com
 #   404: "./_404.html"
 #   500: "./_500.html"
 
+# Enables the automatic rendering of markdown files (.md) into styled HTML. 
 markdown: true
+  
+# Enables a HTTP endpoint to use locally.
 development: false
+
+# Enables SPA mode. It will redirect any non matched route to the index.html of
+# the root folder.
 spa: true
+
+# Enables basic file browser to display the contents of a folder in case there
+# is no index.html file in the 
 ui: true
-form: true
 
+# Protects certains paths from being accessed unless a valid user and password
+# is provided. The combination of hash(user:password) needs to match one in the
+# list.
 authorization:
-  - path:
+  - path: "/secret-place"
+    algorithm: "md5"
     auth:
-      - user: user
-        pass: pass
-      - user: admin
-        pass: P@ssw0rd
+      - validhash
+      - validhash
 
-stats:
-  path: "/stats"
-  user: admin
-  pass: pass
+# TODO: Future features.
+# form: false
+# stats: false
+
+# admin:
+#   user: admin
+#   pass: pass
