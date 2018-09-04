@@ -25,14 +25,14 @@ port: 8080
 #
 markdown: false
   
-# Enables a HTTP endpoint to use locally. Disabled by default.
-# 
-development: false
-
 # Enables SPA mode. It will redirect any non matched route to the index.html of
 # the root folder. Disabled by default.
 # 
 spa: false
+
+# Enables a HTTP endpoint to use locally. Disabled by default.
+# 
+development: false
 
 # Enables basic file browser to display the contents of a folder in case there
 # is no index.html file in the. Disabled by default.
