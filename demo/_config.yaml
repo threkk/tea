@@ -1,0 +1,64 @@
+# Site address that will be used by the server. Necessary for the HTTPS
+# certificates.
+#
+domain: example.com
+
+# Port for the server to run.
+# 
+port: 8080
+
+# SSL certificate to use with HTTPS. This parameter is optional and if it is not
+# provided, a new certificate will be issued using Let's encrypt.
+#
+# ssl: "./example.com.cert"
+
+# Custom error pages to use in case a user tries to access an unknown file,
+# protected file or there is a server error.
+#
+# pages:
+#   403: "./_403.html"  
+#   404: "./_404.html"
+#   500: "./_500.html"
+
+# Enables the automatic rendering of markdown files (.md) into styled HTML.
+# Disabled by default.
+#
+markdown: false
+  
+# Enables SPA mode. It will redirect any non matched route to the index.html of
+# the root folder. Disabled by default.
+# 
+spa: false
+
+# Enables a HTTP endpoint to use locally. Disabled by default.
+# 
+development: false
+
+# Enables basic file browser to display the contents of a folder in case there
+# is no index.html file in the. Disabled by default.
+#
+ui: false
+
+# /!\ WARNING /!\
+#
+# The following sections are generated automatically by thee CLI, DO NOT CHANGE.
+#
+
+# Protects certains paths from being accessed unless a valid user and password
+# is provided. 
+# 
+# authorization:
+#   - path: "/secret-place"
+#     auth:
+#       - validhash
+#       - validhash
+
+# Enables the forms. Every POST request sent from a route to itself will
+# generate a hidden document in the same folder with the content of the forms.
+# 
+# form: 
+#   enabled: false
+#   auth: validhash
+#   paths:
+#     - /first/route/
+#     - /second/route/
