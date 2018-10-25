@@ -38,27 +38,3 @@ development: false
 # is no index.html file in the. Disabled by default.
 #
 ui: false
-
-# /!\ WARNING /!\
-#
-# The following sections are generated automatically by thee CLI, DO NOT CHANGE.
-#
-
-# Protects certains paths from being accessed unless a valid user and password
-# is provided. 
-# 
-# authorization:
-#   - path: "/secret-place"
-#     auth:
-#       - validhash
-#       - validhash
-
-# Enables the forms. Every POST request sent from a route to itself will
-# generate a hidden document in the same folder with the content of the forms.
-# 
-# form: 
-#   enabled: false
-#   auth: validhash
-#   paths:
-#     - /first/route/
-#     - /second/route/
