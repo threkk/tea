@@ -19,7 +19,7 @@ type pages struct {
 }
 
 func (p *pages) String() string {
-	return p.String()
+	return fmt.Sprintf("{403:%s 404:%s 500:%s}", p.Page403, p.Page404, p.Page500)
 }
 
 func (p *pages) Set(value string) error {
@@ -30,10 +30,10 @@ func (p *pages) Set(value string) error {
 
 	re := regexp.MustCompile(`(?m)(403|404|500)=(\S+)`)
 	for _, val := range csv {
-		matches := re.FindAllString(val, -1)
+		matches := re.FindStringSubmatch(val)
 		if matches != nil {
-			k := matches[0]
-			v := matches[1]
+			k := matches[1]
+			v := matches[2]
 
 			switch k {
 			case "403":
@@ -86,10 +86,10 @@ const (
 	mdDefault     = false
 	mdDescription = "Enable markdown (default false)"
 
-	// spa
-	spa            = "spa"
-	spaDefault     = false
-	spaDescription = "Enable routes for single page applications (default false)"
+	// HTML5
+	html5            = "html5"
+	html5Default     = false
+	html5Description = "Enable routes for single page applications (default false)"
 
 	// dev
 	dev            = "dev"
@@ -102,54 +102,60 @@ const (
 	uiDescrition = "Enable UI for folders (default false)"
 )
 
-// CLIValues variables for the start command. It defines most the options from
+// CLI variables for the start command. It defines most the options from
 // the configurations but the ones that require authentication. They allow to
 // overwrite the configuration from the _config.yaml file.
-type CLIValues struct {
+type CLI struct {
 	Domain string
 	Port   uint
 	SSL    string
 	Pages  *pages
 	MD     bool
-	Spa    bool
+	HTML5  bool
 	Dev    bool
 	UI     bool
+
+	// unexported
+	flag *flag.FlagSet
+}
+
+// Parse Wrapper around the flagset.
+func (cli *CLI) Parse(args []string) error {
+	return cli.flag.Parse(args)
 }
 
 // NewCLI Creates a new struct and initialises the fields for a cli.
-func NewCLI(name string, out io.Writer) (*flag.FlagSet, *CLIValues) {
-	// Initialise the flagset.
-	flagset := flag.NewFlagSet(name, flag.ExitOnError)
-
+func NewCLI(name string, out io.Writer) *CLI {
 	// Initialise the struct.
-	values := &CLIValues{
+	cli := &CLI{
 		Domain: "",
 		Port:   8080,
 		SSL:    "",
 		Pages:  &pages{},
 		MD:     false,
-		Spa:    false,
+		HTML5:  false,
 		Dev:    false,
 		UI:     false,
+		flag:   flag.NewFlagSet(name, flag.ExitOnError),
 	}
 
 	// Definte the output of the CLI.
-	flagset.SetOutput(out)
+	cli.flag.SetOutput(out)
 
 	// Define the help message.
-	flagset.Usage = func() {
+	cli.flag.Usage = func() {
 		fmt.Fprint(out, usageMsg)
-		flagset.PrintDefaults()
+		cli.flag.PrintDefaults()
 	}
 
-	flagset.StringVar(&values.Domain, domain, domainDefault, domainDescription)
-	flagset.UintVar(&values.Port, port, portDefault, portDescription)
-	flagset.StringVar(&values.SSL, ssl, sslDefault, sslDescription)
-	flagset.Var(values.Pages, pg, pgDescription)
-	flagset.BoolVar(&values.MD, md, mdDefault, mdDescription)
-	flagset.BoolVar(&values.Spa, spa, spaDefault, spaDescription)
-	flagset.BoolVar(&values.Dev, dev, devDefault, devDescription)
-	flagset.BoolVar(&values.UI, ui, uiDefault, uiDescrition)
+	cli.flag.StringVar(&cli.Domain, domain, domainDefault, domainDescription)
+	cli.flag.UintVar(&cli.Port, port, portDefault, portDescription)
+	cli.flag.StringVar(&cli.SSL, ssl, sslDefault, sslDescription)
+	cli.flag.Var(cli.Pages, pg, pgDescription)
+	cli.flag.BoolVar(&cli.MD, md, mdDefault, mdDescription)
+	cli.flag.BoolVar(&cli.HTML5, html5, html5Default, html5Description)
+	cli.flag.BoolVar(&cli.Dev, dev, devDefault, devDescription)
+	cli.flag.BoolVar(&cli.UI, ui, uiDefault, uiDescrition)
 
-	return flagset, values
+	return cli
 }

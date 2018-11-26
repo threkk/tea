@@ -25,10 +25,10 @@ port: 8080
 #
 markdown: false
   
-# Enables SPA mode. It will redirect any non matched route to the index.html of
+# Enables HTML5 mode. It will redirect any non matched route to the index.html of
 # the root folder. Disabled by default.
 # 
-spa: false
+html5: false
 
 # Enables a HTTP endpoint to use locally. Disabled by default.
 # 
